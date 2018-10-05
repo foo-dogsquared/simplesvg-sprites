@@ -1,18 +1,16 @@
-const http = require('http');
+// import the needed modules
+const express = require('express');
 const fs = require('fs');
 
+// initialize the variables
 const hostname = '127.0.0.1';
 const port = 3000;
+const app = express();
 
-function init(html) {
-    http
-    .createServer((req, res) => {
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.write(fs.readFileSync('./index.html').toString());        
-        res.end();
-    })
-    .listen(port, hostname, () => {
-        console.log(`Server opened to http://${hostname}:${port}`)
+function init() {
+    app.use(express.static('public'));
+    app.listen(port, () => {
+        console.log(`Server opened up at port ${port}.`)
     })
 }
 
