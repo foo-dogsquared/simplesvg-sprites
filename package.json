@@ -1,0 +1,26 @@
+{
+  "name": "simplesvg-sprites",
+  "version": "1.0.0",
+  "description": "A Node app to create an SVG sprite sheet from SimpleIcons.",
+  "main": "app.js",
+  "dependencies": {
+    "simple-icons": "1.9.4",
+    "vue": "2.5.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/foo-dogsquared/simplesvg-sprites.git"
+  },
+  "keywords": [],
+  "author": "foo-dogsquared",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/foo-dogsquared/simplesvg-sprites/issues"
+  },
+  "homepage": "https://github.com/foo-dogsquared/simplesvg-sprites#readme"
+}
