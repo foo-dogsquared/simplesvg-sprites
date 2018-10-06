@@ -3,8 +3,7 @@ const express = require('express');
 const fs = require('fs');
 
 // initialize the variables
-const hostname = '127.0.0.1';
-const port = 3000;
+const port = process.env.PORT || 3000;
 const app = express();
 
 function init() {
@@ -16,7 +15,6 @@ function init() {
 
 
 module.exports = {
-    hostname,
     port,
     init
 }
