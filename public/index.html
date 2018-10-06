@@ -1,15 +1,49 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>simplesvg-sprite</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <h1>I can poop</h1>
-        <p>Yes, I can indeed poop.</p>
-        <p>dogs</p>
-        <script></script>
-    </body>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>simplesvg-sprite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://rawgit.com/foo-dogsquared/fds-css/master/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body id="plain-grid-layout">
+    <main>
+        <div class="wrapper main">
+            <h1>Hello word</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet neque at consectetur quas soluta est quae obcaecati doloribus reiciendis saepe natus voluptatem vero, eum nihil non qui quia debitis esse?</p>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem eligendi cum eius animi tempore veniam veritatis facere fugit, voluptatem itaque vero error eos nostrum consectetur molestiae reiciendis hic quae in.</p>
+            <p>Ut omnis assumenda soluta, vero quaerat, ullam vitae doloremque pariatur eum itaque error, qui facere. Delectus sunt ipsam nulla? Porro ullam cum incidunt consectetur expedita sunt doloribus voluptate eos exercitationem.</p>
+            <p>Reiciendis cumque tempore, ducimus saepe blanditiis quaerat dolorem ut ratione libero assumenda commodi iure ipsam earum ipsa officia. Vero quod consequuntur ipsa in pariatur cupiditate facere dolore modi, dolor dolorem.</p>
+
+            <div id="app">
+
+            </div>
+        </div>
+    </main>
+    <script>
+        const div = document.querySelector("#app");
+
+        let obj;
+        console.log(obj);
+
+        fetch('simple-icons')
+            .then(response => response.json())
+            .then(json => obj = json)
+            .catch(error => console.log(error))
+        
+        function addText() {
+            for (icon in obj) {
+                let paragraph = document.createElement("p");
+
+                paragraph.textContent = icon;
+
+                div.appendChild(paragraph);
+            }
+        }
+
+        console.log(obj);
+    </script>
+</body>
 </html>
