@@ -22,28 +22,6 @@
             </div>
         </div>
     </main>
-    <script>
-        const div = document.querySelector("#app");
-
-        let obj;
-        console.log(obj);
-
-        fetch('simple-icons')
-            .then(response => response.json())
-            .then(json => obj = json)
-            .catch(error => console.log(error))
-        
-        function addText() {
-            for (icon in obj) {
-                let paragraph = document.createElement("p");
-
-                paragraph.textContent = icon;
-
-                div.appendChild(paragraph);
-            }
-        }
-
-        console.log(obj);
-    </script>
+    <script src="scripts/index.js"></script>
 </body>
 </html>
