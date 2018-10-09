@@ -2,16 +2,26 @@
   "name": "simplesvg-sprites",
   "version": "1.0.0",
   "description": "A Node app to create an SVG sprite sheet from SimpleIcons.",
-  "main": "app.js",
+  "main": "server.js",
   "dependencies": {
     "express": "4.16.3",
+    "lodash": "4.17.11",
     "simple-icons": "1.9.4",
     "vue": "2.5.17"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/preset-env": "^7.1.0",
+    "babel-cli": "^6.26.0",
+    "nodemon": "^1.18.4",
+    "uglify-js": "^3.4.9"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "cd ./public/scripts && mkdir libs && cd ../.. && cp ./node_modules/lodash/lodash.min.js ./public/scripts/libs && cp ./node_modules/vue/dist/vue.min.js ./public/scripts/libs && node server",
+    "poststart": "cd ./public/scripts && rm -r libs",
+    "prestop": "cd ./public/scripts && rm -r libs",
+    "stop": "node server.stop && echo \"Server process is exiting\" && exit 0",
+    "watch": "nodemon -w server.js"
   },
   "repository": {
     "type": "git",

@@ -1,3 +1,6 @@
+# Generated libraries
+/public/scripts/libs
+
 # Logs
 logs
 *.log

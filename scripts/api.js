@@ -6,7 +6,7 @@ const api_operations = {
        if (!req.query.icons) {
            res
                .status(200)
-               .json(SI_JSON);
+               .json(simpleicons);
        } else {
            let icon_query_array = String(req.query.icons).split(',');
    
@@ -26,10 +26,10 @@ const api_operations = {
 
                 (Object.keys(list_of_svgs).length > 0) 
                     ? res.status(200).send(list_of_svgs)
-                    : res.status(404).send("There is no valid values from the given data.\n");
+                    : res.status(400).send("There is no valid values from the given data.\n");
             }
         }
-   }
+    }
 }
 
 module.exports = api_operations;
