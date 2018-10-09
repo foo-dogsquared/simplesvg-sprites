@@ -17,9 +17,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd ./public/scripts && mkdir libs && cd ../.. && cp ./node_modules/lodash/lodash.min.js ./public/scripts/libs && cp ./node_modules/vue/dist/vue.min.js ./public/scripts/libs && node server",
-    "poststart": "cd ./public/scripts && rm -r libs",
-    "prestop": "cd ./public/scripts && rm -r libs",
+    "start": "node server",
     "stop": "node server.stop && echo \"Server process is exiting\" && exit 0",
     "watch": "nodemon -w server.js"
   },
