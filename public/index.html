@@ -3,25 +3,37 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>simplesvg-sprite</title>
+    <title>simplesvg-sprites</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://rawgit.com/foo-dogsquared/fds-css/master/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- <link rel="stylesheet" href="https://rawgit.com/foo-dogsquared/fds-css/master/main.css"> -->
+    <link rel="stylesheet" type="text/css" media="screen" href="./assets/main.css" />
+
+    <!-- JS Libraries -->
+    <script src="./scripts/libs/lodash.min.js"></script>
+    <script src="./scripts/libs/vue.min.js"></script>
 </head>
-<body id="plain-grid-layout">
+<body>
     <main>
         <div class="wrapper main">
-            <h1>Hello word</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet neque at consectetur quas soluta est quae obcaecati doloribus reiciendis saepe natus voluptatem vero, eum nihil non qui quia debitis esse?</p>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem eligendi cum eius animi tempore veniam veritatis facere fugit, voluptatem itaque vero error eos nostrum consectetur molestiae reiciendis hic quae in.</p>
-            <p>Ut omnis assumenda soluta, vero quaerat, ullam vitae doloremque pariatur eum itaque error, qui facere. Delectus sunt ipsam nulla? Porro ullam cum incidunt consectetur expedita sunt doloribus voluptate eos exercitationem.</p>
-            <p>Reiciendis cumque tempore, ducimus saepe blanditiis quaerat dolorem ut ratione libero assumenda commodi iure ipsam earum ipsa officia. Vero quod consequuntur ipsa in pariatur cupiditate facere dolore modi, dolor dolorem.</p>
-
-            <div id="app">
-
-            </div>
+            <h1>simplesvg-sprites</h1>
+            <template v-if="active">
+                <select class="icon_list" v-model="selected" multiple>
+                    <option
+                        v-for="icon in icons"
+                    >{{icon}}</option>
+                </select>
+                <selected-list
+                    v-bind:list="selected">
+                </selected-list>
+                <!-- TODO: Add the submit button which will send the data to the server and build the SVG spritesheet -->
+                <!-- <button></button> -->
+            </template>
+            <template v-else>
+                This is off
+            </template>
         </div>
     </main>
-    <script src="scripts/index.js"></script>
+    <script src="./scripts/vue_components.js"></script>
+    <script src="./scripts/main.js"></script>
 </body>
 </html>
