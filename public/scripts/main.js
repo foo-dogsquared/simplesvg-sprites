@@ -49,7 +49,7 @@ if (!localStorage.getItem(local_json) || isFuture_d(localStorage.getItem(update_
     data["icons"] = icons; 
 
     app = callVue(el, data, methods);
-    setTimeout(() => app.active = true, 3000)
+    app.active = true
 
     console.log("Database detected in local storage. Adding data from the local files.");
 }
