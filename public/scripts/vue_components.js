@@ -1,62 +1,137 @@
 "use strict";
-function Vue_Data(data) {
+function Vue_Data() {
     return {
-        icons: data,
         selected: Array.from([]),
-        active: false
+        active: false,
+        selected_list: Array.from([]),
+        selected_rm_list: Array.from([]),
+        status_text: "",
+        status_text_warning: false
     }
 }
 
 function Vue_Methods() {
     return {
-        
-    }
-}
-
-function Vue_Components() {
-    return {
-        "selected-list": {
-            props: {
-                list: Array
-            },
-            data: function() {
-                return {
-                    selected_list: Array.from([]),
-                    selected_rm_list: Array.from([]),
-                    status_text: ""
-                }
-            },
-            methods: {
-                configure_selected_list : function() {
-                    for (const icon of this.list) {
-                        if (_.indexOf(this.selected_list, icon) === -1) this.selected_list.push(icon)
-                        else continue;
-                    }
-                    this.status_text = `${this.selected_list.length} ${(this.selected_list.length === 1) ? "item" : "items"} has been added. [${this.list}]`
-                    return 0;
-                },
-                rm_all : function() {
-                    this.selected_list = Array.from([]);
-                    return 0;
-                },
-                rm_selected_items : function() {
-                    this.selected_list = _.pullAll(this.selected_list, this.selected_rm_list);
-                    this.status_text = `${this.selected_rm_list.length} ${(this.selected_rm_list.length === 1) ? "item" : "items"} has been removed. [${this.selected_rm_list}]`;
-                    console.log(this.selected_rm_list)
-                    this.selected_rm_list = Array.from([]);
-                    return 0;
-                }
-                
+        isListEmpty: function() {
+            return this.selected_list.length === 0;
         },
-            template: `<section>
-                            <button v-on:click="configure_selected_list">Add to list</button>
-                            <button v-on:click="rm_all">Remove all</button>
-                            <button v-on:click="rm_selected_items">Remove selected items</button>
-                            <div class="status-text">{{status_text}}</div>
-                            <div class="selected-icon-grid">
-                                <div class="selected-icon" v-for="icon in selected_list"><span>{{icon}}</span><input type="checkbox" v-model="selected_rm_list" v-bind:value="icon"></div>
-                            </div>
-                        </section>`
+
+        configure_selected_list : function(e) {
+            const target = e.target;
+
+            if (target.tagName !== "OPTION" || target.tagName !== "BUTTON")
+
+            if (this.selected.length === 0) {
+                this.status_text_warning = true;
+                this.status_text = "There's no selected item.";
+                return 1;
+            }
+
+            let count = 0;
+            const added_items = Array.from([]);
+
+            for (const icon of this.selected) {
+                if (_.indexOf(this.selected_list, icon) === -1) {
+                    this.selected_list.push(icon);
+                    added_items.push(icon);
+                    count++;
+                }
+                else continue;
+            }
+
+            if (this.selected.length === 1 && count === 0) {
+                this.status_text_warning = false;
+                this.status_text = `Selected item has already been added`;
+            }
+            else if (count === 0) {
+                this.status_text_warning = true;
+                this.status_text = `All selected items has already been added.`;
+            }
+            else {
+                this.status_text_warning = false;
+                this.status_text = `${count} ${(count === 1) ? "item" : "items"} has been added. [${(added_items.length > 5) ? added_items[0] + "..." + added_items[added_items.length - 1] : added_items}]`;
+            }
+
+            this.selected = Array.from([]);
+            return 0;
+        },
+
+        rm_all : function() {
+            if (this.isListEmpty()) {
+                this.status_text_warning = true;
+                this.status_text = `There are no items to be removed.`;
+                return 1;
+            }
+            this.selected_list = Array.from([]);
+            this.status_text_warning = false;
+            this.status_text = `All items have been removed.`
+            return 0;
+        },
+        rm_selected_items : function() {
+            if  (this.isListEmpty()) {
+                this.status_text_warning = true;
+                this.status_text = "There's no added items in the list yet.";
+                return 1;
+            }
+            else if (this.selected_rm_list.length === 0) {
+                this.status_text_warning = true;
+                this.status_text = "No items have been selected yet."
+                return 1;
+            }
+
+            this.selected_list = _.pullAll(this.selected_list, this.selected_rm_list);
+            if (this.selected_list.length === 0) this.status_text = `All items have been removed. (You could've used the 'Remove All' button, though. 👀)`
+            else this.status_text = `${this.selected_rm_list.length} ${(this.selected_rm_list.length === 1) ? "item" : "items"} has been removed. [${(this.selected_rm_list.length > 5) ? this.selected_rm_list[0] + "..." + this.selected_rm_list[this.selected_rm_list.length - 1] : this.selected_rm_list}]`;
+            console.log(this.selected_rm_list)
+            this.selected_rm_list = Array.from([]);
+            return 0;
+        },
+        sort_items : function() {
+            if (this.isListEmpty()) {
+                this.status_text_warning = true;
+                this.status_text = `No items to be sorted.`;
+                return 1;
+            }
+            
+            this.selected_list.sort((x, y) => {
+                if (x.toLowerCase() > y.toLowerCase()) return 1
+                else if (x.toLowerCase() < y.toLowerCase()) return -1
+                else return 0
+            })
+
+            this.status_text_warning = false;
+            this.status_text = "Selected items sorted."
+        },
+
+        compile_SVG : function(e) {
+            e.preventDefault();
+            if (this.isListEmpty()) {
+                this.status_text_warning = true;
+                this.status_text = "Please select an icon to compile to SVG.";
+                return 1;
+            }
+            const method = "POST"
+            const body = `icons=${this.selected_list.toString()}`;
+            const headers = {"Content-Type": "application/x-www-form-urlencoded"}
+            
+            fetch('/compile', {method, body, headers})
+                .then(response => response.blob())
+                .catch(response => response.json())
+                .then(blob => {
+                    // CREDITS: https://stackoverflow.com/a/42274086/8633667
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = "simplesvg-sprites.svg";
+                    document.body.appendChild(a); 
+                    a.click();    
+                    a.remove(); 
+                    URL.revokeObjectURL(url);
+                    this.selected_list = Array.from([]);
+                    this.status_text_warning = false;
+                    this.status_text = "SVG successfully (probably) created."
+            })
+                .catch(error => console.log(error))
         }
     }
 }

@@ -5,34 +5,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>simplesvg-sprites</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" href="https://rawgit.com/foo-dogsquared/fds-css/master/main.css"> -->
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Niramit" rel="stylesheet">
 
     <!-- JS Libraries -->
     <script src="./scripts/libs/lodash.min.js"></script>
     <script src="./scripts/libs/vue.min.js"></script>
 </head>
 <body>
-    <main>
-        <div class="wrapper main">
-            <h1>simplesvg-sprites</h1>
-            <template v-if="active">
-                <select class="icon_list" v-model="selected" multiple>
-                    <option
-                        v-for="icon in icons"
-                    >{{icon}}</option>
-                </select>
-                <selected-list
-                    v-bind:list="selected">
-                </selected-list>
-                <!-- TODO: Add the submit button which will send the data to the server and build the SVG spritesheet -->
-                <!-- <button></button> -->
-            </template>
-            <template v-else>
-                This is off
-            </template>
-        </div>
-    </main>
+    <div id="app">
+        <template v-if="active">
+            <select class="icon_list" v-model="selected" multiple v-on:dblclick="configure_selected_list">
+                <option
+                    v-for="icon in icons"
+                >{{icon}}</option>
+            </select>
+            <main>
+                <section class="func_buttons">
+                    <button v-on:click="configure_selected_list">Add to list</button>
+                    <button v-on:click="rm_all">Remove all</button>
+                    <button v-on:click="rm_selected_items">Remove selected items</button>
+                    <button v-on:click="sort_items">Sort added items</button>
+                    <button v-on:click="compile_SVG">Compile to SVG</button>
+                </section>
+                
+                <div class="status-text">
+                    <span v-bind:class="{'text-warning': status_text_warning }">{{status_text}}</span><span v-if="selected_list.length > 0">TOTAL: {{selected_list.length}} {{(selected_list.length > 1) ? "items" : "item"}}</span>
+                </div>
+                <div class="selected-icon-grid" v-if="selected_list.length !== 0">
+                    <div class="selected-icon" v-for="icon in selected_list">
+                        <input type="checkbox" class="select-checkbox" v-bind:id="icon" v-bind:value="icon" v-model="selected_rm_list">
+                        <label v-bind:for="icon"><span>{{icon}}</span></label>
+                    </div>
+                </div>
+            </main>
+        </template>
+        <template v-else>
+            <div id="loader-container">
+                <div class="loader"></div>
+                <h1>Loading app...</h1>
+            </div>
+        </template>
+    </div>
     <script src="./scripts/vue_components.js"></script>
     <script src="./scripts/main.js"></script>
 </body>
