@@ -1,0 +1,178 @@
+$base-font-family: Niramit, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$on-palm: 500px;
+$on-between: 800px;
+$on-laptop: 1000px;
+$base-space: 20px;
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: $base-font-family;
+    margin: 0;
+    padding: 0
+}
+
+#app {
+    $selected-color: #00ffff;
+    $selected-color_rm: darken($selected-color, 30%);
+
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
+    margin: 0 auto;
+
+    div#loader-container {
+        $circle-length: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: column nowrap;
+        height: 100%;
+        margin: 0 auto;
+    
+        > div.loader {
+            animation: spin 1.5s infinite;
+            border: 20px solid #f3f3f3;
+            border-radius: 100%;
+            border-top: 20px solid $selected-color;
+            margin-bottom: 1em;
+    
+            height: $circle-length;
+            width: $circle-length;
+        }
+    
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    }
+
+    main {
+        width: 100%;
+        padding: $base-space;
+
+        > * {
+            margin-bottom: $base-space;
+        }
+    }
+
+    select {
+        border: none;
+        font-size: 1.2em;
+        height: 100%;
+        padding: .5em;
+
+        &.icon_list {
+            width: 45%;
+        }
+    }
+
+
+    select, option {
+        font-family: $base-font-family;
+    }
+
+    section.func_buttons {
+        text-align: center;
+    }
+
+    button {
+        border: 1px $selected-color_rm solid;
+        border-radius: 7px;
+        background: transparentize($color: $selected_color, $amount: .42);
+        font-family: $base-font-family;
+        cursor: pointer;
+    }
+
+    main {
+        overflow: auto;
+    }
+
+    .text-warning {
+        color: red;
+    }
+
+    .status-text {
+        overflow-wrap: break-word;
+        text-align: center;
+
+        > *:not(:last-child)::after {
+            color: black;
+            display: inline-block;
+            font-size: 2em;
+            margin-left: $base-space / 2;
+            content: "||";
+        }
+
+        > *:not(:first-child) {
+            margin-left: $base-space / 2;
+        }
+    }
+    
+    .selected-icon-grid {
+        align-content: space-around;
+        display: grid;
+        grid-auto-rows: 75px;
+        grid-gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        justify-content: center;
+        margin: 2em;
+    }
+    
+    .selected-icon-grid > .selected-icon {
+        transition: .2s;
+
+
+        input.select-checkbox[type="checkbox"] {
+            display: none;
+        }
+
+
+        label {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            transition: .1s;
+            cursor: pointer;
+            background: $selected-color;
+            box-shadow: 3px 3px 7px black;
+            border-radius: 5px;
+        }
+
+        input.select-checkbox[type="checkbox"]:checked + label {
+            background: $selected-color_rm;
+            color: white;
+            transform: scale(.925);
+        }
+    }
+
+    @media screen and (max-width: $on-palm) {
+        display: unset;
+
+        select.icon_list {
+            height: 50%;
+        }
+
+        main {
+            padding: 0;
+        }
+    }
+
+    @media screen and (max-width: $on-between) {
+        select.icon_list {
+            width: 100%
+        }
+
+        .status-text {
+            span {
+                display: block;
+            }
+
+            :not(:last-child)::after {
+                content: unset;
+            }
+        }
+    }
+}

@@ -4,6 +4,7 @@
   "description": "A Node app to create an SVG sprite sheet from SimpleIcons.",
   "main": "server.js",
   "dependencies": {
+    "body-parser": "1.18.3",
     "express": "4.16.3",
     "lodash": "4.17.11",
     "simple-icons": "1.9.4",
@@ -16,7 +17,6 @@
     "uglify-js": "^3.4.9"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server",
     "stop": "node server.stop && echo \"Server process is exiting\" && exit 0",
     "watch": "nodemon -w server.js"
