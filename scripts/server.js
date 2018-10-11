@@ -15,6 +15,7 @@ function init(public_dir) {
         .use(body_parser.urlencoded({extended: true}))
         .get('/simple-icons', api_operations.icon_get)
         .get('/database', function(req, res) {(req.query.reverse === "true") ? res.status(200).json(SI_JSON.db_reversed) : res.status(200).json(SI_JSON.db)})
+        .post('/compile', api_operations.compile)
         .listen(port, () => {
             console.log(`Server opened up at port ${port}.`)        
         })
