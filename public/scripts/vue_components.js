@@ -1,7 +1,6 @@
 "use strict";
-function Vue_Data(data) {
+function Vue_Data() {
     return {
-        icons: data,
         selected: Array.from([]),
         active: false,
         selected_list: Array.from([]),
@@ -23,6 +22,7 @@ function Vue_Methods() {
             if (target.tagName !== "OPTION" || target.tagName !== "BUTTON")
 
             if (this.selected.length === 0) {
+                this.status_text_warning = true;
                 this.status_text = "There's no selected item.";
                 return 1;
             }
@@ -49,8 +49,10 @@ function Vue_Methods() {
             }
             else {
                 this.status_text_warning = false;
-                this.status_text = `${count} ${(count === 1) ? "item" : "items"} has been added. [${(added_items.length > 10) ? added_items[0] + "..." + added_items[added_items.length - 1] : added_items}]`;
+                this.status_text = `${count} ${(count === 1) ? "item" : "items"} has been added. [${(added_items.length > 5) ? added_items[0] + "..." + added_items[added_items.length - 1] : added_items}]`;
             }
+
+            this.selected = Array.from([]);
             return 0;
         },
 
@@ -78,7 +80,7 @@ function Vue_Methods() {
             }
 
             this.selected_list = _.pullAll(this.selected_list, this.selected_rm_list);
-            if (this.selected_list.length === 0) this.status_text = `All items have been removed. (You could've used the 'Remove All' button, though. ;-))`
+            if (this.selected_list.length === 0) this.status_text = `All items have been removed. (You could've used the 'Remove All' button, though. 👀)`
             else this.status_text = `${this.selected_rm_list.length} ${(this.selected_rm_list.length === 1) ? "item" : "items"} has been removed. [${(this.selected_rm_list.length > 5) ? this.selected_rm_list[0] + "..." + this.selected_rm_list[this.selected_rm_list.length - 1] : this.selected_rm_list}]`;
             console.log(this.selected_rm_list)
             this.selected_rm_list = Array.from([]);
@@ -96,13 +98,40 @@ function Vue_Methods() {
                 else if (x.toLowerCase() < y.toLowerCase()) return -1
                 else return 0
             })
-            
+
             this.status_text_warning = false;
             this.status_text = "Selected items sorted."
         },
 
-        compile_SVG : function() {
-            this.status_text = `It is in development phase.`
+        compile_SVG : function(e) {
+            e.preventDefault();
+            if (this.isListEmpty()) {
+                this.status_text_warning = true;
+                this.status_text = "Please select an icon to compile to SVG.";
+                return 1;
+            }
+            const method = "POST"
+            const body = `icons=${this.selected_list.toString()}`;
+            const headers = {"Content-Type": "application/x-www-form-urlencoded"}
+            
+            fetch('/compile', {method, body, headers})
+                .then(response => response.blob())
+                .catch(response => response.json())
+                .then(blob => {
+                    // CREDITS: https://stackoverflow.com/a/42274086/8633667
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = "simplesvg-sprites.svg";
+                    document.body.appendChild(a); 
+                    a.click();    
+                    a.remove(); 
+                    URL.revokeObjectURL(url);
+                    this.selected_list = Array.from([]);
+                    this.status_text_warning = false;
+                    this.status_text = "SVG successfully (probably) created."
+            })
+                .catch(error => console.log(error))
         }
     }
 }

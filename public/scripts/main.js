@@ -2,8 +2,11 @@
 // setting up the data
 const local_json = "__simplesvg-sprites_db__";
 const update_time = "__update_time__"
-let data, methods, components, app;
+let components, app;
 const el = "#app";
+
+const data = new Vue_Data();
+const methods = new Vue_Methods();
 
 function retrieveDb() {
     return fetch('/database')
@@ -13,9 +16,7 @@ function retrieveDb() {
             localStorage.setItem(local_json, JSON.stringify(json));
             localStorage.setItem(update_time, new Date().toISOString());
 
-            data = new Vue_Data(json);
-
-            methods = new Vue_Methods();
+            data["icons"] = json; 
 
             app = callVue(el, data, methods);
             app.active = true;
@@ -44,11 +45,11 @@ if (!localStorage.getItem(local_json) || isFuture_d(localStorage.getItem(update_
     console.log(`Retrieving database and ${(localStorage.getItem(local_json)) ? "updating" : "adding"} to local storage.`);
 } else {
     const icons = JSON.parse(localStorage.getItem(local_json));
-    data = new Vue_Data(icons);
-    methods = new Vue_Methods();
+
+    data["icons"] = icons; 
 
     app = callVue(el, data, methods);
-    app.active = true;
+    setTimeout(() => app.active = true, 3000)
 
     console.log("Database detected in local storage. Adding data from the local files.");
 }

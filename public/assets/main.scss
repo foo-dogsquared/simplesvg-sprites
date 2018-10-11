@@ -21,6 +21,32 @@ html, body {
     height: 100%;
     margin: 0 auto;
 
+    div#loader-container {
+        $circle-length: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: column nowrap;
+        height: 100%;
+        margin: 0 auto;
+    
+        > div.loader {
+            animation: spin 1.5s infinite;
+            border: 20px solid #f3f3f3;
+            border-radius: 100%;
+            border-top: 20px solid $selected-color;
+            margin-bottom: 1em;
+    
+            height: $circle-length;
+            width: $circle-length;
+        }
+    
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    }
+
     main {
         width: 100%;
         padding: $base-space;
