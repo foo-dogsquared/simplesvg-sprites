@@ -36,11 +36,11 @@
                     </datalist>
                 </div> -->
                 <section class="func_buttons">
-                    <button v-on:click="configure_selected_list">Add to list</button>
-                    <button v-on:click="rm_all">Remove all</button>
-                    <button v-on:click="rm_selected_items">Remove selected items</button>
+                    <button v-on:click="configure_selected_list($event)">Add to list</button>
+                    <button v-on:click="rm_all">Remove all list items</button>
+                    <button v-on:click="rm_selected_items">Remove selected list items</button>
                     <button v-on:click="sort_items">Sort added items</button>
-                    <button v-on:click="compile_SVG">Compile to SVG</button>
+                    <button v-on:click="confirm_active = true">Compile to SVG</button>
                 </section>
                 
                 <div class="status-text">
@@ -52,15 +52,26 @@
                         <label v-bind:for="icon"><span>{{icon}}</span></label>
                     </div>
                 </div>
+                <div class="confirm_screen" v-show="confirm_active">
+                    <div class="confirm_btn_container">
+                        <div class="confirm_text">Confirm to create the SVG?</div>
+                        <div class="confirm_btns">
+                            <button v-on:click.enter="confirm_active = false; compile_SVG()">Yes</button>
+                            <button v-on:click="confirm_active = false">No</button>
+                        </div>
+                    </div>
+                </div>
             </main>
         </template>
         <template v-else>
             <div id="loader-container">
                 <div class="loader"></div>
                 <h1>Loading app...</h1>
+                <h2>(If not, there might be something wrong with it.)</h2>
             </div>
         </template>
     </div>
+    <script src="./scripts/functions.js"></script>
     <script src="./scripts/vue_components.js"></script>
     <script src="./scripts/main.js"></script>
 </body>
