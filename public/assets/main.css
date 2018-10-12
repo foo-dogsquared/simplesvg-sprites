@@ -42,20 +42,28 @@ html, body {
     padding: .5em; }
     #app select.icon_list {
       width: 45%; }
-  #app select, #app option {
+  #app input {
+    font-size: 1.2em; }
+  #app select, #app option, #app datalist > :optional, #app input {
     font-family: Niramit, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
   #app section.func_buttons {
     text-align: center; }
   #app button {
     border: 1px #006666 solid;
     border-radius: 7px;
-    background: rgba(0, 255, 255, 0.58);
+    background: rgba(0, 255, 255, 0.1);
     font-family: Niramit, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1em;
     cursor: pointer; }
   #app main {
     overflow: auto; }
   #app .text-warning {
     color: red; }
+  #app .icon_datalist_input {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center; }
   #app .status-text {
     overflow-wrap: break-word;
     text-align: center; }

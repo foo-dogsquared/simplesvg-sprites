@@ -108,6 +108,8 @@ How about multiple icons? As long as it is separated by a comma, it is possible.
 
 *The result will be a JSON with an object with the valid values as the keys.* 
 
+**Just bear in mind to convert the query string into its percent-encoded form so nothing bad could happen. Especially with special characters such as & (in AT&T).**
+
 This is the resulting JSON from the example request above:
 ```json
 {
