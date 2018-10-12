@@ -4,17 +4,17 @@ A Node app to create an SVG sprite sheet from SimpleIcons. It is based from the 
 ## Installation
 If you want to see it from the ground-up in your machine simply clone the repo:
 ```bash
-    git clone https://github.com/foo-dogsquared/simplesvg-sprites
+git clone https://github.com/foo-dogsquared/simplesvg-sprites
 ```
 
 Assuming you have Node installed which should be packaged with npm, just go to the local directory where the repo is located, then:
 ```bash
-    npm install
+npm install
 ```
 
 After all of the dependencies have been installed, just run it with:
 ```bash
-    npm run watch
+npm run watch
 ```
 
 And the server should be up and ready to go, serving up the files at `localhost:3000`, by default (or if not, could have something to do with the environment or something).
@@ -97,11 +97,13 @@ Just take note that it is not suitable for a project that'll be used by a hundre
 
 ### `GET /simple-icons`
 You can request for one icon, as long as it is one of the valid values:
+
 `/simple-icons?icons=Windows`
 
 *The result will be a JSON with a single object.*
 
 How about multiple icons? As long as it is separated by a comma, it is possible.
+
 `/simple-icons?icons=Adobe+Creative+Cloud,Windows,Xing`
 
 *The result will be a JSON with an object with the valid values as the keys.* 
