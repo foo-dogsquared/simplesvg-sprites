@@ -21,6 +21,20 @@
                 >{{icon}}</option>
             </select>
             <main>
+                <div style="text-align: center">
+                    <h1 style="margin-bottom: 0;">simplesvg-sprites</h1>
+                    <p style="margin-top: 0;">
+                        <a href="https://github.com/foo-dogsquared/simplesvg-sprites" target="_blank">Repo Link</a>
+                    </p>
+                </div>
+                <!-- TODO: Add an input and datalist to search through <input> -->
+                <!-- TODO: When keypress is Enter, add the value of it to "selected_list" -->
+                <!-- <div class="icon_datalist_input">
+                    <input list="icons" v-on:keyup.enter="configure_selected_list" style="width: 70%">
+                    <datalist id="icons">
+                        <option v-for="icon in icons" v-bind:value="icon">
+                    </datalist>
+                </div> -->
                 <section class="func_buttons">
                     <button v-on:click="configure_selected_list">Add to list</button>
                     <button v-on:click="rm_all">Remove all</button>

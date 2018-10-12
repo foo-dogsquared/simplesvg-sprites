@@ -67,8 +67,11 @@ html, body {
         }
     }
 
+    input {
+        font-size: 1.2em;
+    }
 
-    select, option {
+    select, option, datalist > :optional, input {
         font-family: $base-font-family;
     }
 
@@ -79,8 +82,9 @@ html, body {
     button {
         border: 1px $selected-color_rm solid;
         border-radius: 7px;
-        background: transparentize($color: $selected_color, $amount: .42);
+        background: transparentize($color: $selected_color, $amount: .9);
         font-family: $base-font-family;
+        font-size: 1em;
         cursor: pointer;
     }
 
@@ -90,6 +94,13 @@ html, body {
 
     .text-warning {
         color: red;
+    }
+
+    .icon_datalist_input {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
     }
 
     .status-text {

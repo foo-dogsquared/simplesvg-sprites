@@ -63,6 +63,7 @@ function Vue_Methods() {
                 return 1;
             }
             this.selected_list = Array.from([]);
+            this.selected_rm_list = Array.from([]);
             this.status_text_warning = false;
             this.status_text = `All items have been removed.`
             return 0;
@@ -111,7 +112,8 @@ function Vue_Methods() {
                 return 1;
             }
             const method = "POST"
-            const body = `icons=${this.selected_list.toString()}`;
+            const body = `icons=${encodeURIComponent(this.selected_list.toString())}`;
+            console.log(body);
             const headers = {"Content-Type": "application/x-www-form-urlencoded"}
             
             fetch('/compile', {method, body, headers})
@@ -128,6 +130,7 @@ function Vue_Methods() {
                     a.remove(); 
                     URL.revokeObjectURL(url);
                     this.selected_list = Array.from([]);
+                    this.selected_rm_list = Array.from([]);
                     this.status_text_warning = false;
                     this.status_text = "SVG successfully (probably) created."
             })
