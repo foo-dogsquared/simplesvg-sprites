@@ -7,7 +7,9 @@ function Vue_Data() {
         selected_rm_list: Array.from([]),
         status_text: "",
         status_text_warning: false,
-        confirm_active: false,
+        compile_confirm_active: false,
+        remove_confirm_active: false,
+        toggle_option: false
     }
 }
 
@@ -79,6 +81,7 @@ function Vue_Methods() {
             this.selected_rm_list = emptyArray()
             return 0;
         },
+
         sort_items : function() {
             if (this.isListEmpty()) {
                 this.toggle_status_text_warning(true, `No items to be sorted.`);
@@ -116,6 +119,43 @@ function Vue_Methods() {
                     this.toggle_status_text_warning(true, "There is something wrong with the server.")
             })
         },
+    }
+}
+
+function Vue_Components() {
+    return {
+        "confirm-screen": {
+            props: {
+                "message": {
+                    type: String,
+                    required: true,
+                    default: "Want to confirm the action?"
+                },
+                "affirmative": {
+                    type: String,
+                    required: true,
+                    default: "Yes"
+                },
+                "negative": {
+                    type: String,
+                    required: true,
+                    default: "No"
+                },
+                "variable": {
+                    type: Boolean,
+                    required: true
+                }
+            },
+            template: `<div class="confirm_screen" v-show="variable">
+                <div class="confirm_btn_container">
+                    <div class="confirm_text">{{message}}</div>
+                    <div class="confirm_btns">
+                        <button v-on:click="$emit('close-button'); $emit('confirm-action')">{{ affirmative }}</button>
+                        <button v-on:click="$emit('close-button')">{{ negative }}</button>
+                    </div>
+                </div>
+            </div>`
+        }
     }
 }
 

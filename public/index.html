@@ -15,7 +15,7 @@
 <body>
     <div id="app">
         <template v-if="active">
-            <select class="icon_list" v-model="selected" multiple v-on:dblclick="configure_selected_list">
+            <select class="icon_list" v-bind:class="{toggled: toggle_option}" v-model="selected" multiple v-on:dblclick="configure_selected_list">
                 <option
                     v-for="icon in icons"
                 >{{icon}}</option>
@@ -36,11 +36,12 @@
                     </datalist>
                 </div> -->
                 <section class="func_buttons">
+                    <button v-on:click="toggle_option = !toggle_option" id="toggle-btn">Show list</button>
                     <button v-on:click="configure_selected_list($event)">Add to list</button>
-                    <button v-on:click="rm_all">Remove all list items</button>
+                    <button v-on:click="remove_confirm_active = true">Remove all list items</button>
                     <button v-on:click="rm_selected_items">Remove selected list items</button>
                     <button v-on:click="sort_items">Sort added items</button>
-                    <button v-on:click="confirm_active = true">Compile to SVG</button>
+                    <button v-on:click="compile_confirm_active = true">Compile to SVG</button>
                 </section>
                 
                 <div class="status-text">
@@ -52,15 +53,8 @@
                         <label v-bind:for="icon"><span>{{icon}}</span></label>
                     </div>
                 </div>
-                <div class="confirm_screen" v-show="confirm_active">
-                    <div class="confirm_btn_container">
-                        <div class="confirm_text">Confirm to create the SVG?</div>
-                        <div class="confirm_btns">
-                            <button v-on:click.enter="confirm_active = false; compile_SVG()">Yes</button>
-                            <button v-on:click="confirm_active = false">No</button>
-                        </div>
-                    </div>
-                </div>
+                <confirm-screen v-on:confirm-action="rm_all" v-on:close-button="remove_confirm_active = false" :variable="remove_confirm_active" message="Are you sure to delete all selected items?" affirmative="Yes" negative="No"></confirm-screen>
+                <confirm-screen v-on:confirm-action="compile_SVG" v-on:close-button="compile_confirm_active = false" :variable="compile_confirm_active" message="Want to create the SVG?" affirmative="Yes" negative="No"></confirm-screen>
             </main>
         </template>
         <template v-else>

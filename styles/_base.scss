@@ -1,0 +1,49 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: $base-font-family;
+    margin: 0;
+    padding: 0
+}
+
+main {
+    width: 100%;
+    padding: $base-space;
+    overflow: auto;
+
+    > * {
+        margin-bottom: $base-space;
+    }
+}
+
+button {
+    border: 1px $selected-color_rm solid;
+    border-radius: 7px;
+    background: transparentize($color: $selected_color, $amount: .9);
+    font-family: $base-font-family;
+    font-size: 1em;
+    cursor: pointer;
+
+    #toggle-btn {
+        display: none;
+    }
+}
+
+select {
+    border: none;
+    font-size: 1.2em;
+    height: 100%;
+    padding: .5em;
+
+    &.icon_list {
+        width: 45%;
+    }
+}
+
+input {
+    font-size: 1.2em;
+}
+
+select, option, datalist > option, input {
+    font-family: $base-font-family;
+}

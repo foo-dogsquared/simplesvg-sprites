@@ -46,7 +46,7 @@ function retrieveDb() {
         
         data["icons"] = json; 
         
-        app = callVue(el, data, methods);
+        app = callVue(el, data, methods, components);
         app.active = true;
         
         return 1;
