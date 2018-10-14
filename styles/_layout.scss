@@ -78,7 +78,19 @@
     height: 100%;
     margin: 0 auto;
 
+    aside {
+        width: 45%;
+    }
+
+    main {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
     section.func_buttons {
+        $forward_action_color: green;
+        $delete_action_color: darkred;
+
         display: flex;
         flex-flow: column nowrap;
         align-items: center;
@@ -87,12 +99,40 @@
         > button:not(#toggle-btn) {
             width: 50%;
             margin: .25em 0;
+            border: none;
+        }
+
+        > button.forward_action {
+            background: $forward_action_color;
+            color: white;
+        }
+
+        > button.compile_action {
+            background: darken($forward_action_color, 10%);
+            color: white;
+        }
+
+        > button.delete_action {
+            background: $delete_action_color;
+            color: white;
         }
     }
 
     #toggle-btn {
         display: none;
     }
+
+    ul {
+        background: peachpuff;
+        border: dashed;
+        margin: 0 auto;
+        margin-bottom: 1em;
+        padding: 2em;
+
+        &.desktop-desc {display: block;}
+        &.mobile-desc {display: none;}
+    }
+    
 
     .text-warning {
         color: red;
@@ -123,7 +163,7 @@
     }
 
     select.icon_list {
-        width: 45%;
+        width: 100%;
         z-index: 1;
     }
     
@@ -135,6 +175,7 @@
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         justify-content: center;
         margin: 2em;
+        padding-bottom: 2em;
     }
     
     .selected-icon-grid > .selected-icon {
@@ -173,6 +214,10 @@
             }
         }
 
+        aside {
+            width: 100%
+        }
+
         select.icon_list {
             height: 100%;
             position: fixed;
@@ -208,11 +253,15 @@
         main {
             padding: 0;
         }
+
+        ul {margin: 1em; margin-top: 0;}
+        ul.desktop-desc {display: none;}
+        ul.mobile-desc {display: block;}
     }
 
     @media screen and (max-width: $on-between) {
-        select.icon_list {
-            width: 100%
+        aside {
+            width: 60%
         }
 
         .status-text {
@@ -223,6 +272,10 @@
             :not(:last-child)::after {
                 content: unset;
             }
+        }
+
+        section.func_buttons {
+            > button:not(#toggle-btn) {width: 75%;}
         }
     }
 }

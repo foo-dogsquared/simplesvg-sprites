@@ -19,11 +19,13 @@
 <body>
     <div id="app">
         <template v-if="active">
-            <select class="icon_list" v-bind:class="{toggled: toggle_option}" v-model="selected" multiple v-on:dblclick="configure_selected_list">
-                <option
-                    v-for="icon in icons"
-                >{{icon}}</option>
-            </select>
+            <aside>
+                <select class="icon_list" v-bind:class="{toggled: toggle_option}" v-model="selected" multiple v-on:dblclick="configure_selected_list">
+                    <option
+                        v-for="icon in icons"
+                    >{{icon}}</option>
+                </select>
+            </aside>
             <main>
                 <div style="text-align: center">
                     <h1 style="margin-bottom: 0;">simplesvg-sprites</h1>
@@ -31,6 +33,17 @@
                         <a href="https://github.com/foo-dogsquared/simplesvg-sprites" target="_blank">Repo Link</a>
                     </p>
                 </div>
+                <ul class="desktop-desc">
+                    <li>Select an icon from the list on the side.</li>
+                    <li>Select the 'Add to list' button.</li>
+                    <li>When you're sure of the choices, press the 'Compile to SVG' button.</li>
+                    <li>Wait for the server to respond with the SVG named <code>simplesvg-sprites</code>.</li>
+                </ul>
+                <ul class="mobile-desc">
+                    <li>Press 'Show list' to present the catalog of icons.</li>
+                    <li>Select the icons you want to be included in the SVG then press 'Add to list' button.</li>
+                    <li>When you're sure of the choices, select the 'Compile to SVG' button and wait for the SVG to be sent.</li>
+                </ul>
                 <!-- TODO: Add an input and datalist to search through <input> -->
                 <!-- TODO: When keypress is Enter, add the value of it to "selected_list" -->
                 <!-- <div class="icon_datalist_input">
@@ -41,11 +54,11 @@
                 </div> -->
                 <section class="func_buttons">
                     <button v-on:click="toggle_option = !toggle_option" id="toggle-btn">Show list</button>
-                    <button v-on:click="configure_selected_list($event)">Add to list</button>
-                    <button v-on:click="remove_confirm_active = true">Remove all list items</button>
-                    <button v-on:click="rm_selected_items">Remove selected list items</button>
-                    <button v-on:click="sort_items">Sort added items</button>
-                    <button v-on:click="compile_confirm_active = true">Compile to SVG</button>
+                    <button class="forward_action" v-on:click="configure_selected_list($event)">Add to list</button>
+                    <button class="forward_action" v-on:click="sort_items">Sort added items</button>
+                    <button class="compile_action" v-on:click="compile_confirm_active = true" style="padding:.5em">Compile to SVG</button>
+                    <button class="delete_action" v-on:click="remove_confirm_active = true">Remove all list items</button>
+                    <button class="delete_action" v-on:click="rm_selected_items">Remove selected list items</button>
                 </section>
                 
                 <div class="status-text">
