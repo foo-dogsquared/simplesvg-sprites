@@ -121,6 +121,11 @@
             margin-left: $base-space / 2;
         }
     }
+
+    select.icon_list {
+        width: 45%;
+        z-index: 1;
+    }
     
     .selected-icon-grid {
         align-content: space-around;
@@ -162,6 +167,12 @@
     @media screen and (max-width: $on-palm) {
         display: unset;
 
+        section.func_buttons {
+            > button:not(#toggle-btn) {
+                width: 90%;
+            }
+        }
+
         select.icon_list {
             height: 100%;
             position: fixed;
@@ -178,10 +189,10 @@
             border: 2px white solid;
             color: white;
             display: block;
-            left: 0%;
+            right: 0%;
             margin: 1em;
             position: fixed;
-            top: 0%;
+            bottom: 0%;
             transition: .3s;
             z-index: 1;
 
