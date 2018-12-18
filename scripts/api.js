@@ -44,11 +44,11 @@ const api_operations = {
             return 1;
         } else {
             const icon_lists = body.isIconBody(req.body.icons).sort();
-            console.log(icon_lists.length);
+            console.log(icon_lists);
             
             // TODO: send a .zip file with the SVGs when "compile" is false, probably
             // SimpleIcons SVG has a pattern (thankfully) which all SVG does have
-            const simple_icons_svg_regex = /(<svg .+>)(<title .+>)(.*)(<\/title>)(<.+ .+\/>)(<\/svg>)/;
+            const simple_icons_svg_regex = /(<svg .+>)(<title>)(.+)(<\/title>)(<.+>)(<\/svg>)/;
             const viewBox = /viewBox="(\d+ \d+ \d+ \d+)"/
             
             let buffer = `<svg xmlns="http://www.w3.org/2000/svg">`;
