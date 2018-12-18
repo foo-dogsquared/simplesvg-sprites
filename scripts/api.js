@@ -36,15 +36,19 @@ const api_operations = {
     },
 
     compile: function(req, res) {
-        if (!req.body.icons) res.status(400).json({message: `${res.statusCode}: No detected "icons" key in the body of the request.`, documentation: documentation_url});
-        else if (body.isIconBody(req.body.icons).length === 0) res.status(404).json({message: `${res.statusCode}: Can't find the icons. Perhaps it's a misspelling or just not included.`, documentation: documentation_url})
-        else {
-
-            const icon_lists = body.isIconBody(req.body.icons);
+        if (!req.body.icons) {
+            res.status(400).json({message: `${res.statusCode}: No detected "icons" key in the body of the request.`, documentation: documentation_url});
+            return 1;
+        } else if (body.isIconBody(req.body.icons).length === 0) {
+            res.status(404).json({message: `${res.statusCode}: Can't find the icons. Perhaps it's a misspelling or just not included.`, documentation: documentation_url})
+            return 1;
+        } else {
+            const icon_lists = body.isIconBody(req.body.icons).sort();
+            console.log(icon_lists);
             
             // TODO: send a .zip file with the SVGs when "compile" is false, probably
             // SimpleIcons SVG has a pattern (thankfully) which all SVG does have
-            const simple_icons_svg_regex = /(<svg .+>)(<title .+>)(.*)(<\/title>)(<path .+\/>)(<\/svg>)/;
+            const simple_icons_svg_regex = /(<svg .+>)(<title>)(.+)(<\/title>)(<.+>)(<\/svg>)/;
             const viewBox = /viewBox="(\d+ \d+ \d+ \d+)"/
             
             let buffer = `<svg xmlns="http://www.w3.org/2000/svg">`;
@@ -60,13 +64,13 @@ const api_operations = {
             
             buffer += "\n</svg>";
 
-            res
-            .set({
+            res.set({
                 "Content-Disposition": 'attachment; filename=\"simplesvg-sprites.svg\"',
                 "Content-Type": "image/svg+xml"
             })
             res.write(buffer)
             res.end()
+            return 0;
         }
     }
 }

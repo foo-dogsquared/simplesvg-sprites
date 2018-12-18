@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>simplesvg-sprites</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="foo-dogsquared">
+    <meta name="application-name" content="simplesvg-sprites">
+    <meta name="description" content="A NodeJS app to compile icons from Simple Icons into one SVG.">
+    <meta name="keywords" content="Simple Icons,simple-icons,svg compiler,nodeJS,foo-dogsquared">
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/main.css" />
     <link href="https://fonts.googleapis.com/css?family=Niramit" rel="stylesheet">
 
@@ -15,18 +19,46 @@
 <body>
     <div id="app">
         <template v-if="active">
-            <select class="icon_list" v-model="selected" multiple v-on:dblclick="configure_selected_list">
-                <option
-                    v-for="icon in icons"
-                >{{icon}}</option>
-            </select>
+            <aside>
+                <select class="icon_list" v-bind:class="{toggled: toggle_option}" v-model="selected" multiple v-on:dblclick="configure_selected_list">
+                    <option
+                        v-for="icon in icons"
+                    >{{icon}}</option>
+                </select>
+            </aside>
             <main>
+                <div style="text-align: center">
+                    <h1 style="margin-bottom: 0;">simplesvg-sprites</h1>
+                    <p style="margin-top: 0;">
+                        <a href="https://github.com/foo-dogsquared/simplesvg-sprites" target="_blank">Repo Link</a>
+                    </p>
+                </div>
+                <ul class="desktop-desc">
+                    <li>Select an icon from the list on the side.</li>
+                    <li>Select the 'Add to list' button.</li>
+                    <li>When you're sure of the choices, press the 'Compile to SVG' button.</li>
+                    <li>Wait for the server to respond with the SVG named <code>simplesvg-sprites</code>.</li>
+                </ul>
+                <ul class="mobile-desc">
+                    <li>Press 'Show list' to present the catalog of icons.</li>
+                    <li>Select the icons you want to be included in the SVG then press 'Add to list' button.</li>
+                    <li>When you're sure of the choices, select the 'Compile to SVG' button and wait for the SVG to be sent.</li>
+                </ul>
+                <!-- TODO: Add an input and datalist to search through <input> -->
+                <!-- TODO: When keypress is Enter, add the value of it to "selected_list" -->
+                <!-- <div class="icon_datalist_input">
+                    <input list="icons" v-on:keyup.enter="configure_selected_list" style="width: 70%">
+                    <datalist id="icons">
+                        <option v-for="icon in icons" v-bind:value="icon">
+                    </datalist>
+                </div> -->
                 <section class="func_buttons">
-                    <button v-on:click="configure_selected_list">Add to list</button>
-                    <button v-on:click="rm_all">Remove all</button>
-                    <button v-on:click="rm_selected_items">Remove selected items</button>
-                    <button v-on:click="sort_items">Sort added items</button>
-                    <button v-on:click="compile_SVG">Compile to SVG</button>
+                    <button v-on:click="toggle_option = !toggle_option" id="toggle-btn">Show list</button>
+                    <button class="forward_action" v-on:click="configure_selected_list($event)">Add to list</button>
+                    <button class="forward_action" v-on:click="sort_items">Sort added items</button>
+                    <button class="compile_action" v-on:click="compile_confirm_active = true" style="padding:.5em">Compile to SVG</button>
+                    <button class="delete_action" v-on:click="remove_confirm_active = true">Remove all list items</button>
+                    <button class="delete_action" v-on:click="rm_selected_items">Remove selected list items</button>
                 </section>
                 
                 <div class="status-text">
@@ -38,15 +70,19 @@
                         <label v-bind:for="icon"><span>{{icon}}</span></label>
                     </div>
                 </div>
+                <confirm-screen v-on:confirm-action="rm_all" v-on:close-button="remove_confirm_active = false" :variable="remove_confirm_active" message="Are you sure to delete all selected items?" affirmative="Yes" negative="No"></confirm-screen>
+                <confirm-screen v-on:confirm-action="compile_SVG" v-on:close-button="compile_confirm_active = false" :variable="compile_confirm_active" message="Want to create the SVG?" affirmative="Yes" negative="No"></confirm-screen>
             </main>
         </template>
         <template v-else>
             <div id="loader-container">
                 <div class="loader"></div>
                 <h1>Loading app...</h1>
+                <h2>(If not, there might be something wrong with it.)</h2>
             </div>
         </template>
     </div>
+    <script src="./scripts/functions.js"></script>
     <script src="./scripts/vue_components.js"></script>
     <script src="./scripts/main.js"></script>
 </body>

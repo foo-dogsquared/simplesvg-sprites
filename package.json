@@ -5,16 +5,15 @@
   "main": "server.js",
   "dependencies": {
     "body-parser": "1.18.3",
+    "cors": "^2.8.4",
     "express": "4.16.3",
     "lodash": "4.17.11",
-    "simple-icons": "1.9.4",
+    "simple-icons": "1.9.14",
     "vue": "2.5.17"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.1.0",
-    "babel-cli": "^6.26.0",
-    "nodemon": "^1.18.4",
-    "uglify-js": "^3.4.9"
+    "nodemon": "1.18.7",
+    "sass": "1.15.1"
   },
   "scripts": {
     "start": "node server",
