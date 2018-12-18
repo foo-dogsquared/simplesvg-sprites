@@ -101,6 +101,7 @@ function Vue_Methods() {
             const body_text = encodeURIComponent(this.selected_list.toString());
             const post_data = new Post_Compile_Data(body_text);
             this.toggle_status_text_warning(false, "Creating SVG on the server...");
+            console.debug(this.selected_list);
             
             const headers = post_data.headers;
             const body = post_data.body;
