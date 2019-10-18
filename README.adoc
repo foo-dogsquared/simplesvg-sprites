@@ -1,0 +1,33 @@
+= Simple SVG Sprites
+
+Quickly create and download SVG symbol sheets from the 
+[Simple Icons icon set].
+
+
+
+
+== Features
+
+* Quickly create a SVG symbol sheet from the Simple Icons icon set. 
+* Works offline. 
+* Utilize service workers for PWA features. 
+
+
+
+
+== Development build
+
+In order to set up this repo in the development 
+environment, do the following:
+
+* Fork the repo into your account
+* Clone the forked repo into your machine (`git clone <FORKED_REPO_URL>`) 
+* Go to the cloned repo directory (`cd <NAME_OF_PROJECT>`)
+* Pull the dependencies (`npm i`)
+
+
+=== Technology overview 
+
+* It uses **Vue.js** for the front-end web components library. 
+* It uses **Webpack** for bundling the app for offline use. 
+* It uses **Babel** for transpiling JS code into older versions for compatability. 
