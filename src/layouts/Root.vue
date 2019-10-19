@@ -30,10 +30,11 @@ export default {
 <style lang="scss">
 $border: 1px black solid;
 $color: #eae2f4;
+$fontFamily: "Fira Sans","Copper Hewitt","IBM Plex",sans;
 
 #app {
   $size: 900px;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: $fontFamily;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -50,6 +51,7 @@ button {
   border: $border;
   background: transparent;
   cursor: pointer;
+  font-family: $fontFamily;
   padding: 0.5em;
 
   &:hover {

@@ -1,7 +1,7 @@
 <template>
   <main class="app__main">
     <input tabindex="2" class="icons__search" @input="event => this.searchValue = event.target.value" />
-    <div :class="{ 'icons--compact' : listMode }" class="icons" @click="addToList">
+    <div :class="{ 'icons--list' : listMode }" class="icons" @click="addToList">
       <Icon v-for="logo in icons"
       :key="logo.slug" :title="logo.title" :svgPath="logo.path" :brandColor="logo.hex"
       :class="[selectedIcons.indexOf(logo.title) !== -1 ? 'icon--selected' : '']"
@@ -122,11 +122,11 @@ export default {
   grid-gap: 10px;
 }
 
-.icons--compact {
+.icons--list {
   $size: 100px;
   $padding: 1em;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax($size * 2, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax($size * 1.75, 1fr));
   grid-template-rows: repeat(auto-fill, minmax($size / 2, 1fr));
   padding: 0.5em;
   grid-gap: 10px;
@@ -152,6 +152,7 @@ export default {
   border: 3px black solid;
   bottom: 0;
   display: flex;
+  flex-flow: row wrap;
   margin: auto;
   justify-content: space-evenly;
   align-items: center;
@@ -159,5 +160,10 @@ export default {
   padding: 1em;
   margin: 0.5em;
   height: 50px;
+  overflow: auto;
+}
+
+.app__button {
+  margin: 0.5em;
 }
 </style>
