@@ -1,7 +1,8 @@
 = Simple SVG Sprites
 
-Quickly create and download SVG symbol sheets from the 
-[Simple Icons icon set].
+An alternative interface for the https://simpleicons.org/[official Simple Icons website] with additional features. 
+
+The website uses the official icon set from the https://github.com/simple-icons/simple-icons/[GitHub repo]. 
 
 
 
@@ -9,25 +10,75 @@ Quickly create and download SVG symbol sheets from the
 == Features
 
 * Quickly create a SVG symbol sheet from the Simple Icons icon set. 
-* Works offline. 
-* Utilize service workers for PWA features. 
+* It works as a progressive web app (PWA) and can work in offline mode. 
+* Download the icons through an https://css-tricks.com/svg-symbol-good-choice-icons/[SVG symbol spritesheet] or individual files inside of a ZIP file. 
 
 
 
 
-== Development build
+== Development build 
 
-In order to set up this repo in the development 
-environment, do the following:
+For future references, there is the following table of the dependencies and their version used as of the starting development of the remake. 
 
-* Fork the repo into your account
-* Clone the forked repo into your machine (`git clone <FORKED_REPO_URL>`) 
-* Go to the cloned repo directory (`cd <NAME_OF_PROJECT>`)
-* Pull the dependencies (`npm i`)
+[cols="3*", options="header"]
+|===
+| Dependency 
+| Minimum version 
+| Notes 
+
+| Node 
+| `8.9.0` 
+| Minimum version is based from https://github.com/webpack-contrib/sass-loader/releases/tag/v8.0.0[`sass-loader` version 8]. 
+
+|===
+
+In order to set up this repo in the development environment, do the following:
+
+* Fork the repo into your account.
+* Clone the forked repo into your machine (`git clone <FORKED_REPO_URL>`). 
+* Go to the cloned repo directory (`cd <NAME_OF_PROJECT>`). 
+* Pull the dependencies (`npm i`). 
+* Open the server and build the local version of the site (`npm run serve`). 
 
 
 === Technology overview 
 
-* It uses **Vue.js** for the front-end web components library. 
-* It uses **Webpack** for bundling the app for offline use. 
-* It uses **Babel** for transpiling JS code into older versions for compatability. 
+* The project is scaffolded from https://cli.vuejs.org[**Vue CLI service**]. 
+* It uses https://vuejs.org/[**Vue.js**] for the front-end web components library. 
+* It uses https://webpack.js.org/[**Webpack**] for bundling the app for offline use. 
+* It uses https://babeljs.io/[**Babel**] for transpiling JS code into older versions for compatability. 
+* Uses the official https://github.com/simple-icons/simple-icons/[**Simple Icons library**]. 
+* Creates the zip files with https://github.com/Stuk/jszip[**JSZip**]. 
+* Client-side file generation is made possible with https://github.com/eligrey/FileSaver.js[**FileSaver.js**]. 
+
+
+=== Codebase tour 
+
+The codebase is pretty simple. 
+
+Here are the files that needs the most attention in no particular order. 
+
+[cols="3*", options="header"] 
+|===
+| File 
+| Function 
+| Notes 
+
+| `src/constants.js` 
+| Contains the constants to be used throughout the app. 
+| 
+
+| `src/components/Main.vue` 
+| The main component that contains the icon grid, app controls, and the search bar of the single-page website. 
+| 
+
+| `src/components/Icon.vue` 
+| The icon component. (Very helpful.) 
+| 
+
+| `src/components/index.js` 
+| The index file that exports the components. 
+Any new components have to be added in this file. 
+| 
+
+|===
