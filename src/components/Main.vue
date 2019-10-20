@@ -1,6 +1,14 @@
 <template>
   <main class="app__main">
-    <input tabindex="2" class="icons__search" @input="event => this.searchValue = event.target.value" />
+    <div class="app__status" :class="{ 'app__status--resize' : statusResize && !statusMinimize && selectedIcons.length > 0 }">
+      <button v-show="selectedIcons.length > 0" class="status__minimize" @click="statusMinimize = !statusMinimize"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 10h24v4h-24z"/></svg></button>
+      <button v-show="selectedIcons.length > 0 && !statusMinimize" class="status__resize" @click="statusResize = !statusResize"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 5h-3l5-5 5 5h-3v3h-4v-3zm4 14h3l-5 5-5-5h3v-3h4v3zm-9-5v3l-5-5 5-5v3h3v4h-3zm14-4v-3l5 5-5 5v-3h-3v-4h3z"/></svg></button>
+      <input tabindex="2" class="status__search" @input="event => this.searchValue = event.target.value" @keyup.esc="event => event.target.blur()" />
+      <div v-show="selectedIcons.length > 0 && !statusMinimize" class="status__icons-list" @click="goToIcon">
+        <span class="status__selected-icon" v-for="selectedIcon in reverseSelectedIcons" :key="selectedIcon" v-text="selectedIcon"></span>
+      </div>
+      <p v-show="selectedIcons.length > 0 && !statusResize && !statusMinimize">You have chosen {{ selectedIcons.length }} icons.</p>
+    </div>
     <div :class="{ 'icons--list' : listMode }" class="icons" @click="addToList">
       <Icon v-for="logo in icons"
       :key="logo.slug" :title="logo.title" :svgPath="logo.path" :brandColor="logo.hex"
@@ -9,10 +17,25 @@
     </div>
 
     <div id="app__controls">
-      <button class="app__button" :disabled="selectedIcons.length <= 0" @click="compileSvgSprite">Compile</button>
-      <button class="app__button" @click="event => this.selectedIcons = Array.from(this.iconList)">Select all</button>
-      <button class="app__button" @click="event => this.selectedIcons = []">Unselect all</button>
-      <button class="app__button" @click="listMode = !listMode">{{ listMode ? "Grid" : "List" }}</button>
+      <button class="app__button" :disabled="selectedIcons.length <= 0" @click="compileSvgSprite">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 11h5l-9 10-9-10h5v-11h8v11zm1 11h-10v2h10v-2z"/></svg>
+      </button>
+
+      <button class="app__button" @click="event => this.selectedIcons = Array.from(this.iconList)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0v24h24v-24h-24zm10.041 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591z"/></svg>
+      </button>
+
+      <button class="app__button" @click="event => this.selectedIcons = []">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10.041 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591zm5.959-17v2h-8v-2h8zm0 24v-2h-8v2h8zm2-22h4v4h2v-6h-6v2zm-18 14h2v-8h-2v8zm2-10v-4h4v-2h-6v6h2zm22 2h-2v8h2v-8zm-2 10v4h-4v2h6v-6h-2zm-16 4h-4v-4h-2v6h6v-2z"/></svg>
+      </button>
+
+      <button class="app__button" v-if="listMode" @click="listMode = false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 6h-6v-6h6v6zm9-6h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9 0h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9 0h-6v6h6v-6zm9 0h-6v6h6v-6z"/></svg>
+      </button>
+      <button class="app__button" v-else @click="listMode = true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3h-16v-2h16v2zm0 3h-16v2h16v-2zm0 5h-16v2h16v-2zm0 5h-16v2h16v-2zm0 5h-16v2h16v-2zm-18-20h-6v6h6v-6zm0 8h-6v6h6v-6zm0 8h-6v6h6v-6z"/></svg>
+      </button>
+
       <span><label for="zip">Download as individual files</label><input type="checkbox" id="zip" v-model="enableZip"/></span>
     </div>
   </main>
@@ -36,6 +59,8 @@ export default {
     return {
       selectedIcons: [],
       searchValue: '',
+      statusResize: false,
+      statusMinimize: false,
       listMode: false,
       enableZip: false,
     };
@@ -46,6 +71,9 @@ export default {
     },
     appControls() {
       return document.querySelector('#app__controls');
+    },
+    reverseSelectedIcons() {
+      return [...this.selectedIcons].reverse();
     },
   },
   components: {
@@ -97,19 +125,127 @@ export default {
         this.selectedIcons = [];
       }
     },
+    goToIcon(event) {
+      const { target } = event;
+      if (target.tagName === 'SPAN' && target.classList.contains('status__selected-icon')) {
+        const { textContent } = target;
+        const icons = document.querySelector('.icons');
+
+        const icon = icons.querySelector(`.icon[data-icon="${textContent}"]`);
+        icon.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    },
+  },
+  mounted() {
+    function keyListener(event) {
+      const { key } = event;
+      if (key === '/') {
+        event.preventDefault();
+        const statusSearch = document.querySelector('.status__search');
+        statusSearch.focus();
+      }
+
+      if (event.ctrlKey) {
+        if (key === 'a' || key === 'A') {
+          event.preventDefault();
+          this.selectedIcons = Array.from(this.iconList);
+        } else if (key === 'x' || key === 'X') {
+          event.preventDefault();
+          this.selectedIcons = [];
+        } else if (key === ',' && this.selectedIcons.length > 0) {
+          event.preventDefault();
+          this.statusMinimize = !this.statusMinimize;
+        } else if (key === '.' && this.selectedIcons.length > 0 && !this.statusMinimize) {
+          event.preventDefault();
+          this.statusResize = !this.statusResize;
+        } else if (key === 'Enter') {
+          event.preventDefault();
+          this.compileSvgSprite();
+        } else if (key === ';') {
+          event.preventDefault();
+          this.enableZip = !this.enableZip;
+        }
+      }
+    }
+
+    document.addEventListener('keydown', keyListener.bind(this));
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
+$border: 3px black solid;
+$bgColor: white;
+$secondaryColor: #eae2f4;
+$fontFamily: "Fira Sans","Copper Hewitt","IBM Plex",sans;
+
 .app__main {
   flex: 1 1 0%;
   margin: 1em 0;
 }
 
-.icons__search {
-  width: 80%;
+.app__status {
+  background: $bgColor;
+  border: $border;
+  font-size: 1.1em;
+  font-family: $fontFamily;
+  padding: 0.5em;
+  position: sticky;
+  top: 0;
+}
+
+.app__status--resize {
+  $height: 200px;
+  height: $height;
+  position: sticky;
+  top: 0;
+  z-index: 8888;
+
+  & .status__icons-list {
+    height: $height - 50px;
+    overflow: auto;
+  }
+}
+
+.status__minimize {
+  background: $bgColor;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.status__resize {
+  background: $bgColor;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.status__icons-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 50px;
+  overflow: auto;
+  margin: 1em auto;
+}
+
+.status__selected-icon {
+  border: black solid 1px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin: 0.5em;
+  padding: 0.5em;
+
+  &:hover {
+    background: $secondaryColor;
+  }
+}
+
+.status__search {
+  width: 75%;
 }
 
 .icons {
@@ -138,6 +274,7 @@ export default {
     padding: 0.5em;
     cursor: pointer;
     user-select: none;
+    text-align: left;
   }
 }
 
@@ -145,11 +282,17 @@ export default {
   background: black;
   fill: white;
   color: white;
+
+  &:hover {
+  background: black;
+  fill: white;
+  color: white;
+  }
 }
 
 #app__controls {
-  background: white;
-  border: 3px black solid;
+  background: $bgColor;
+  border: $border;
   bottom: 0;
   display: flex;
   flex-flow: row wrap;
