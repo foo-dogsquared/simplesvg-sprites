@@ -1,7 +1,7 @@
 const app = {
-  name: 'Simple SVG Sprites',
+  name: 'Simple Icons Sprites',
   repo: 'https://github.com/foo-dogsquared/simplesvg-sprites/',
-  description: 'An alternative interface to Simple Icons website.',
+  description: 'An interface to the official Simple Icons website for creating SVG symbol sprites (or downloading individual files at once).',
   author: 'Gabriel Arazas',
   authorAlias: 'foo-dogsquared',
   authorWebsite: 'https://foo-dogsquared.github.io/',

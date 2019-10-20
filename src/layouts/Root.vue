@@ -57,5 +57,14 @@ button {
   &:hover {
     background: $color;
   }
+
+  &:disabled {
+    $color: #dedbd8;
+    $grayAccent: #8e8c8a;
+    background: $color;
+    color: $grayAccent;
+    fill: $grayAccent;
+    cursor: not-allowed;
+  }
 }
 </style>

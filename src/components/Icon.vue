@@ -1,8 +1,8 @@
 <template>
-  <div tabindex="1" class="icon" :data-icon="title">
-    <svg class="icon__svg" ><path :d="svgPath" /></svg>
+  <button tabindex="1" class="icon" :data-icon="title">
+    <svg class="icon__svg" viewBox="0 0 24 24"><path :d="svgPath" /></svg>
     <div class="icon__title" v-text="title"></div>
-  </div>
+  </button>
 </template>
 
 <script>
@@ -44,5 +44,6 @@ export default {
   $size: 2em;
   width: $size;
   height: $size;
+  margin: 0.5em;
 }
 </style>
