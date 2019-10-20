@@ -1,0 +1,63 @@
+= Changelog 
+
+All notable changes to this project will be documented in this file.
+
+The format is based on https://keepachangelog.com/en/1.0.0/[Keep a Changelog],
+and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
+
+
+
+
+== Unreleased 
+
+
+
+
+== [2.1.0] - 2019-10-20
+
+
+=== Added 
+
+* Add a status bar for the selection. 
+* Implement navigational features to the app with the status bar. 
+* Implement global keyboard shortcuts for power users (most likely just me). 
+** `Ctrl + Enter` for compiling the icons. 
+** `/` for focusing the search bar. 
+** `Ctrl + A` for selecting all icons. 
+** `Ctrl + X` for deselecting all icons. 
+** `Ctrl + ,` for toggling minimization of the status bar. 
+** `Ctrl + .` for toggling maximization of the status bar. 
+** `Ctrl + ;` for toggling compiling to a zip file. 
+
+
+=== Changed 
+
+* Update the look of the site. 
+
+
+
+
+== [2.0.1] - 2019-10-19 
+
+
+=== Changed 
+
+* Update the site assets. 
+
+
+
+
+== [2.0.0] - 2019-10-18 
+
+
+=== Changed
+
+* Remake made possible with https://vuejs.org/[Vue]. 
+Though, it is more in a testing phase to see what possible implementations can be done. 
+* Change the site to being a statically generated content instead of being server-sided. 
+(It is a bit of an overkill, in my opinion.) 
+
+
+=== Removed 
+
+* As an effect of the remake being static, the API has been completely removed. 
