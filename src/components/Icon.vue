@@ -41,7 +41,7 @@ export default {
 }
 
 .icon__svg {
-  $size: 2em;
+  $size: 3em;
   width: $size;
   height: $size;
   margin: 0.5em;

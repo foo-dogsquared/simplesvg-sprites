@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header :app="constants.app"></Header>
+    <Header :app="constants.app" :icons="simpleIcons"></Header>
     <Main :icons="simpleIcons"></Main>
     <Footer :app="constants.app"></Footer>
   </div>
